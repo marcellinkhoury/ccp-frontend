@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { createContext, useEffect, useRef, useState } from "react";
+import "amazon-connect-streams";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import ProfileCreation from "./components/ProfileCreation";
+
+export const GlobalContext = createContext();
 
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <GlobalContext.Provider value={{ isLoading, setIsLoading }}>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Dashboard></Dashboard>} path={"/"}></Route>
+          <Route
+            element={<ProfileCreation></ProfileCreation>}
+            path={"/create-profile"}
+          ></Route>
+        </Routes>
+      </BrowserRouter>
+    </GlobalContext.Provider>
   );
 }
 
